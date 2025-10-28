@@ -1,0 +1,92 @@
+﻿@page "/"
+
+<h1>🎯 Word Guess Game</h1>
+
+<p style="font-size: 1.5rem;">@displayWord</p>
+
+<p>Wrong guesses: @wrongGuesses / @maxWrongGuesses</p>
+
+<input @bind="currentGuess" maxlength="1" placeholder="Guess a letter" />
+<button @onclick="MakeGuess">Guess</button>
+
+<p>@message</p>
+
+@if (gameOver)
+{
+    <button @onclick="RestartGame">Play Again</button>
+}
+
+@code {
+    string[] wordList = { "APPLE", "BANANA", "MANGO", "ORANGE", "GRAPE" };
+    string secretWord = "";
+    HashSet<char> guessedLetters = new();
+    string displayWord = "";
+    int wrongGuesses = 0;
+    int maxWrongGuesses = 6;
+    string currentGuess = "";
+    string message = "";
+    bool gameOver = false;
+
+    protected override void OnInitialized()
+    {
+        RestartGame();
+    }
+
+    void MakeGuess()
+    {
+        if (string.IsNullOrWhiteSpace(currentGuess) || gameOver) return;
+        char guess = char.ToUpper(currentGuess[0]);
+        currentGuess = "";
+
+        if (guessedLetters.Contains(guess))
+        {
+            message = $"You already guessed '{guess}'!";
+            return;
+        }
+
+        guessedLetters.Add(guess);
+
+        if (!secretWord.Contains(guess))
+        {
+            wrongGuesses++;
+            message = "Wrong!";
+        }
+        else
+        {
+            message = "Correct!";
+        }
+
+        UpdateDisplay();
+
+        if (displayWord.Replace(" ", "") == secretWord)
+        {
+            message = "🎉 You guessed it!";
+            gameOver = true;
+        }
+        else if (wrongGuesses >= maxWrongGuesses)
+        {
+            message = $"😢 Game Over! The word was {secretWord}";
+            gameOver = true;
+        }
+    }
+
+    void RestartGame()
+    {
+        Random rand = new();
+        secretWord = wordList[rand.Next(wordList.Length)];
+        guessedLetters.Clear();
+        wrongGuesses = 0;
+        message = "";
+        gameOver = false;
+        UpdateDisplay();
+    }
+
+    void UpdateDisplay()
+    {
+        displayWord = "";
+        foreach (char c in secretWord)
+        {
+            displayWord += guessedLetters.Contains(c) ? $"{c} " : "_ ";
+        }
+    }
+}
