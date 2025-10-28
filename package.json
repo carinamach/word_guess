@@ -1,0 +1,8 @@
+{
+  "name": "wordguess-vercel-build",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "dotnet publish -c Release -o bin/Release/net9.0/publish"
+  }
+}

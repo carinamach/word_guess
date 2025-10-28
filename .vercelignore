@@ -1,0 +1,11 @@
+# Ignore common workspace files and build artifacts not needed for Vercel
+bin/
+obj/
+.vs/
+node_modules/
+.git/
+**/*.user
+**/*.suo
+**/*.nupkg
+README.md
+LICENSE
