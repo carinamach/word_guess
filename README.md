@@ -1,30 +1,49 @@
-# WordGuessGame
+WordGuessGame
 
-Ett litet Blazor WebAssembly-projekt för ett ordgissningsspel.
+A small Blazor WebAssembly project for a word guessing game.
 
-## Snabbstart
+Quickstart
 
-Kräver .NET 7/8/9 SDK installerat (projektet byggs med .NET 9 enligt csproj).
+Requires .NET 7/8/9 SDK installed (the project is built with .NET 9 according to the csproj file).
 
-I PowerShell, från projektmappen (`WordGuessGame`):
+In PowerShell, from the project folder (WordGuessGame):
+
+dotnet restore
+dotnet run
+
+
+Then open your browser at the address shown by dotnet run (usually https://localhost:5001
+ or http://localhost:5000
+).
+
+
+WordGuessGame
+
+A small Blazor WebAssembly project for a word-guessing game.
+
+## Quickstart
+
+Requires the .NET SDK (7/8/9). The project is targeted at .NET 9 according to the csproj.
+
+From PowerShell, in the project folder (`WordGuessGame`):
 
 ```powershell
 dotnet restore
 dotnet run
 ```
 
-Öppna sedan webbläsaren på den adress som `dotnet run` visar (vanligtvis https://localhost:5001 eller http://localhost:5000).
+Then open your browser at the address shown by `dotnet run` (typically https://localhost:5001 or http://localhost:5000).
 
-## Struktur
+## Structure
 
-- `Pages/` – Razor-sidor
-- `wwwroot/` – statiska filer
+- `Pages/` – Razor pages
+- `wwwroot/` – static files
 
-## Bidra
-1. Forka repot eller klona detta repo.
-2. Skapa en feature-branch.
-3. Gör ändringar, committa och skicka en pull request.
+## Contributing
+1. Fork the repository or clone it.
+2. Create a feature branch.
+3. Make changes, commit, and open a pull request.
 
 ---
 
-Om du vill att jag lägger till en `.gitignore`, licens eller mer dokumentation, säg till så ordnar jag det.
+If you'd like me to add a `.gitignore`, a license, or more documentation, tell me and I will add them.
