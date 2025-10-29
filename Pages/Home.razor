@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
 
 <h1>🎯 Word Guess Game</h1>
 
@@ -6,10 +7,35 @@
 
 <p>Wrong guesses: @wrongGuesses / @maxWrongGuesses</p>
 
-<input @bind="currentGuess" maxlength="1" placeholder="Guess a letter" />
+<input @bind="currentGuess" @bind:event="oninput" maxlength="1" placeholder="Guess a letter" @onkeydown="HandleKeyDown" />
 <button @onclick="MakeGuess">Guess</button>
 
 <p>@message</p>
+
+<div style="margin-top:1rem">
+    <h3>Guessed letters</h3>
+    @if (guessedLetters.Count == 0)
+    {
+        <p><em>No guesses yet.</em></p>
+    }
+    else
+    {
+        <div>
+            <strong>Correct:</strong>
+            @foreach (var c in CorrectGuesses)
+            {
+                <span style="display:inline-block;margin:0.2rem;padding:0.2rem 0.5rem;background:#e6ffea;border-radius:4px;color:green;margin-right:0.25rem">@c</span>
+            }
+        </div>
+        <div style="margin-top:0.5rem">
+            <strong>Wrong:</strong>
+            @foreach (var c in WrongGuessesList)
+            {
+                <span style="display:inline-block;margin:0.2rem;padding:0.2rem 0.5rem;background:#ffecec;border-radius:4px;color:darkred;margin-right:0.25rem">@c</span>
+            }
+        </div>
+    }
+</div>
 
 @if (gameOver)
 {
@@ -17,7 +43,18 @@
 }
 
 @code {
-    string[] wordList = { "APPLE", "BANANA", "MANGO", "ORANGE", "GRAPE" };
+string[] wordList = { 
+    "APPLE", "BANANA", "MANGO", "ORANGE", "GRAPE",
+    "DOG", "CAT", "ELEPHANT", "TIGER", "LION",
+    "RED", "BLUE", "GREEN", "YELLOW", "PURPLE",
+    "SWEDEN", "JAPAN", "BRAZIL", "FRANCE", "CANADA",
+    "CHAIR", "TABLE", "COMPUTER", "KEYBOARD", "WINDOW",
+    "SUN", "MOON", "STAR", "CLOUD", "RAINBOW",
+    "MOUNTAIN", "RIVER", "OCEAN", "FOREST", "DESERT",
+    "CAR", "TRAIN", "BICYCLE", "AIRPLANE", "BOAT",
+    "PIZZA", "BURGER", "SUSHI", "PASTA", "BREAD",
+    "FLOWER", "TREE", "GRASS", "ROSE", "TULIP"
+};
     string secretWord = "";
     HashSet<char> guessedLetters = new();
     string displayWord = "";
@@ -70,6 +107,14 @@
         }
     }
 
+    void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e?.Key == "Enter")
+        {
+            MakeGuess();
+        }
+    }
+
     void RestartGame()
     {
         Random rand = new();
@@ -80,6 +125,9 @@
         gameOver = false;
         UpdateDisplay();
     }
+
+    IEnumerable<char> CorrectGuesses => guessedLetters.Where(c => secretWord.Contains(c)).OrderBy(c => c);
+    IEnumerable<char> WrongGuessesList => guessedLetters.Where(c => !secretWord.Contains(c)).OrderBy(c => c);
 
     void UpdateDisplay()
     {
